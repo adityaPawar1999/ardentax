@@ -1,0 +1,62 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function customerFieldIds() {
+      return [
+        'customers-1', 'customers-2', 'customers-3', 'customers-4',
+        'customers-5', 'customers-6', 'customers-7', 'customers-8',
+        'customers-9', 'customers-10', 'customers-11', 'customers-12',
+        'customers-13', 'customers-14', 'customers-15', 'customers-16',
+        'customers-17', 'customers-18', 'customers-19', 'customers-20',
+        'customers-21', 'customers-22', 'customers-addr3'
+      ];
+    }
+
+    function supplierFieldIds() {
+      return [
+        'suppliers-1', 'suppliers-2', 'suppliers-3', 'suppliers-4',
+        'suppliers-5', 'suppliers-6', 'suppliers-7', 'suppliers-8',
+        'suppliers-9', 'suppliers-10', 'suppliers-11', 'suppliers-12',
+        'suppliers-13', 'suppliers-14', 'suppliers-15', 'suppliers-16',
+        'suppliers-17', 'suppliers-18', 'suppliers-19', 'suppliers-addr3'
+      ];
+    }
+
+    function validForm(data, role, allowedIds, fieldCount, documentName) {
+      return data.keys().hasOnly([
+            'companyName', 'formType', 'formFields', 'formValues', 'submittedAt', 'submittedAtLocal'
+          ])
+          && data.keys().hasAll([
+            'companyName', 'formType', 'formFields', 'formValues', 'submittedAt', 'submittedAtLocal'
+          ])
+          && data.companyName == documentName
+          && data.formType == role
+          && data.formFields is list
+          && data.formFields.size() == fieldCount
+          && data.formValues is map
+          && data.formValues.keys().hasOnly(allowedIds)
+          && data.formValues.keys().hasAll(allowedIds)
+          && data.submittedAt == request.time
+          && data.submittedAtLocal is string
+          && data.submittedAtLocal.size() <= 40;
+    }
+
+    match /customer/{customerId} {
+      allow create, update: if validForm(
+        request.resource.data, 'Customer (Buyer) Onboarding Form', customerFieldIds(), 23, customerId
+      );
+      allow read: if true;
+      allow delete: if false;
+    }
+
+    match /supplier/{supplierId} {
+      allow create, update: if validForm(
+        request.resource.data, 'Supplier (Seller) Onboarding Form', supplierFieldIds(), 20, supplierId
+      );
+      // Public reads power the Customer Data tab without sign-in.
+      allow read: if true;
+      allow delete: if false;
+    }
+  }
+}
