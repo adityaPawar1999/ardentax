@@ -36,7 +36,7 @@ export default function Header() {
           </nav>
 
           <NavLink to="/customer-data" className={({ isActive }) => `px-3 py-1.5 rounded-lg border text-xs font-medium transition ${isActive ? 'border-blue-200 bg-blue-50 text-blue-800' : 'border-slate-300 bg-white text-slate-700 hover:bg-slate-50'}`}>
-            Customer Data
+            Dashboard
           </NavLink>
           <Link to="/form" className="px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 text-xs font-semibold transition">
             Switch Type

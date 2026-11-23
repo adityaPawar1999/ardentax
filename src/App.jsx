@@ -4,7 +4,7 @@ import Header from './components/layout/Header.jsx';
 import MainContent from './components/layout/MainContent.jsx';
 import Overlays from './components/overlays/Overlays.jsx';
 import Toast from './components/overlays/Toast.jsx';
-import { legacyScript } from './legacy/documentParts.js';
+import { legacyScript } from './legacy/guideRuntime.js';
 import * as XLSX from 'xlsx';
 import { jsPDF } from 'jspdf';
 import 'jspdf-autotable';

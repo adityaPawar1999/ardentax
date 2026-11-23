@@ -1,9 +1,11 @@
 import { useEffect } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { mainClassName } from '../../legacy/documentParts.js';
 import GuidePage from '../guide/GuidePage.jsx';
 import OnboardingForm from '../onboarding/OnboardingForm.jsx';
 import CustomerDataPage from '../customerData/CustomerDataPage.jsx';
+import Footer from './Footer.jsx';
+
+const mainClassName = 'flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-5 space-y-5';
 
 function SyncAppMode({ mode, role = null }) {
   useEffect(() => {
@@ -48,6 +50,7 @@ export default function MainContent() {
               one is visible and records each navigation in browser history. */}
           <GuidePage />
           <OnboardingForm />
+          <Footer />
         </main>
       </div>
       {isCustomerData && <CustomerDataPage />}
